@@ -7,8 +7,8 @@ El ejercicio consiste en implementar la logica de seguridad bloqueo local
 
 Pongo aquí un ejemplo de los mocks del wallet de Bread (BRD)
 
-![PIN] pin.jpg
-![FINGER] finger.jpg
+<img src="screen1.png" width="250">
+<img src="screen2.png" width="250">
 
 Requisitos:
 - Usar nav library
