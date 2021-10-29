@@ -30,7 +30,7 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
     }
     //match the pass, if are the same go to new activity else toast with retry again
     private fun matchPassCode(){
-        if(getPassCode().equals(passCode)){
+        if(getPassCode() == passCode){
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         } else {
@@ -43,7 +43,7 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
         val preferences = getSharedPreferences("passcode-pref", Context.MODE_PRIVATE)
         val editor = preferences.edit()
         editor.putString("passcode",passCode)
-        editor.commit()
+        editor.apply()
 
         return editor
     }
@@ -65,28 +65,28 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
             binding.view06.setBackgroundResource(R.drawable.bg_view_bordo_oval)
         }else{
             when(numberList.size){
-                1 -> {
-                    num01 = numbersList.get(0)
+                0 -> {
+                    num01 = numbersList[0]
                     binding.view01.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                2 -> {
-                    num02 = numbersList.get(1)
+                1 -> {
+                    num02 = numbersList[1]
                     binding.view02.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                3 -> {
-                    num03 = numbersList.get(2)
+                2 -> {
+                    num03 = numbersList[2]
                     binding.view03.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                4 -> {
-                    num04 = numbersList.get(3)
+                3 -> {
+                    num04 = numbersList[3]
                     binding.view04.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                5 -> {
-                    num05 = numbersList.get(4)
+                4 -> {
+                    num05 = numbersList[4]
                     binding.view05.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                6 -> {
-                    num06 = numberList.get(5)
+                5 -> {
+                    num06 = numberList[5]
                     binding.view06.setBackgroundResource(R.drawable.bg_view_grey_oval)
                     passCode = num01 + num02 + num03 + num04 + num05 + num06
                     if(getPassCode().isEmpty()){

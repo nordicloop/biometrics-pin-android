@@ -4,11 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.example.biometricspin.databinding.ActivityMain2Binding
 import com.example.biometricspin.databinding.ActivityMainBinding
 
 
@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity(){
         checkBiometricStatus(biometricManager)
 
         val executor = ContextCompat.getMainExecutor(this)
+
+        binding.goPin.setOnClickListener {
+            val intent = Intent(this, MainActivity2::class.java)
+            startActivity(intent)
+        }
 
         biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback(){

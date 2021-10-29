@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#19011E"
+    android:background="@color/bordo"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -45,6 +45,12 @@
             android:elevation="5dp"
             android:padding="5dp"
             android:fontFamily="monospace"/>
+        <Button
+            android:id="@+id/goPin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="go to pin"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
     
