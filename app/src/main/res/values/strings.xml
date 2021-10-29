@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BiometricsPin</string>
+    <string name="authenticate_now">Authenticate now</string>
+</resources>
