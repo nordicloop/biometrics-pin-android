@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.example.biometricspin.databinding.ActivityMain2Binding
 
 
-class Pin : AppCompatActivity(), View.OnClickListener{
+class MainActivity2 : AppCompatActivity(), View.OnClickListener{
     private lateinit var binding : ActivityMain2Binding
 
     private var numbersList : MutableList<String> = mutableListOf()
@@ -100,10 +100,11 @@ class Pin : AppCompatActivity(), View.OnClickListener{
         }
     }
 
+
     //capture one click and add your value
-    override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.btn_01-> {
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.btn_01 -> {
                 numbersList.add("1")
                 passNumber(numbersList)
             }

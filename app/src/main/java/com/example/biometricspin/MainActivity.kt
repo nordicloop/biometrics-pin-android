@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import com.example.biometricspin.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(){
 
     
     private lateinit var binding : ActivityMainBinding
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun goToHomeActivity(){
-        val intent = Intent(this, Pin::class.java)
+        val intent = Intent(this, MainActivity2::class.java)
         startActivity(intent)
     }
 
@@ -100,12 +100,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onRestart() {
         super.onRestart()
-        val intent = Intent(this, Pin::class.java)
+        val intent = Intent(this, MainActivity2::class.java)
         startActivity(intent)
-    }
-
-    override fun onClick(v: View) {
-        TODO("Not yet implemented")
     }
 }
 
