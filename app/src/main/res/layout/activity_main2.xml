@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pin"
+    tools:context=".MainActivity2"
     android:background="@color/bordo">
 
     <!-- TITLE -->
@@ -85,15 +85,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:onClick="onClick">
             <!-- LINEAR 1,2,3 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="3"
+                android:onClick="onClick">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_01"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -105,6 +108,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_02"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -116,6 +120,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_03"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -133,9 +138,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="3"
+                android:onClick="onClick">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_04"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -147,6 +154,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_05"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -158,6 +166,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_06"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -175,9 +184,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="3"
+                android:onClick="onClick">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_07"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -189,6 +200,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_08"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -200,6 +212,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_09"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -217,9 +230,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="3"
+                android:onClick="onClick">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_clear"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -228,6 +243,7 @@
                     android:src="@drawable/ic_clear_orange"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_00"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -239,6 +255,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_finger_print"
                     android:layout_weight="1"
                     android:layout_width="0dp"

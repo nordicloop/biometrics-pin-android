@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import com.example.biometricspin.databinding.ActivityMain2Binding
 
@@ -13,7 +14,7 @@ import com.example.biometricspin.databinding.ActivityMain2Binding
 class MainActivity2 : AppCompatActivity(), View.OnClickListener{
     private lateinit var binding : ActivityMain2Binding
 
-    private var numbersList : MutableList<String> = mutableListOf()
+    private var numbersList = mutableListOf<String>()
     private var passCode = ""
     var num01 = ""
     var num02 = ""
@@ -22,12 +23,59 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
     var num05 = ""
     var num06 = ""
 
+    private lateinit var btn01: Button
+    private lateinit var btn02: Button
+    private lateinit var btn03: Button
+    private lateinit var btn04: Button
+    private lateinit var btn05: Button
+    private lateinit var btn06: Button
+    private lateinit var btn07: Button
+    private lateinit var btn08: Button
+    private lateinit var btn09: Button
+    private lateinit var btn00: Button
+    private lateinit var btnClear: Button
+    private lateinit var btnFingerPrint: Button
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initializedComponents()
+
+
+
     }
+
+    private fun initializedComponents() {
+        btn01 = binding.btn01
+        btn02 = binding.btn02
+        btn03 = binding.btn03
+        btn04 = binding.btn04
+        btn05 = binding.btn05
+        btn06 = binding.btn06
+        btn07 = binding.btn07
+        btn08 = binding.btn08
+        btn09 = binding.btn09
+        btn00 = binding.btn00
+        btnClear = binding.btnClear
+        btnFingerPrint = binding.btnFingerPrint
+
+        btn01.setOnClickListener(this)
+        btn02.setOnClickListener(this)
+        btn03.setOnClickListener(this)
+        btn04.setOnClickListener(this)
+        btn05.setOnClickListener(this)
+        btn06.setOnClickListener(this)
+        btn07.setOnClickListener(this)
+        btn08.setOnClickListener(this)
+        btn09.setOnClickListener(this)
+        btn00.setOnClickListener(this)
+        btnClear.setOnClickListener(this)
+        btnFingerPrint.setOnClickListener(this)
+    }
+
     //match the pass, if are the same go to new activity else toast with retry again
     private fun matchPassCode(){
         if(getPassCode() == passCode){
