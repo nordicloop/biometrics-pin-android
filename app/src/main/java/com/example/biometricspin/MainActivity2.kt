@@ -5,16 +5,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import com.example.biometricspin.databinding.ActivityMain2Binding
 
 
-class MainActivity2 : AppCompatActivity(), View.OnClickListener{
-    private lateinit var binding : ActivityMain2Binding
+class MainActivity2 : AppCompatActivity() {
+    private lateinit var binding: ActivityMain2Binding
 
-    private var numbersList = mutableListOf<String>()
+    private val numbersList : ArrayList<String> = ArrayList()
+
     private var passCode = ""
     var num01 = ""
     var num02 = ""
@@ -23,74 +22,80 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
     var num05 = ""
     var num06 = ""
 
-    private lateinit var btn01: Button
-    private lateinit var btn02: Button
-    private lateinit var btn03: Button
-    private lateinit var btn04: Button
-    private lateinit var btn05: Button
-    private lateinit var btn06: Button
-    private lateinit var btn07: Button
-    private lateinit var btn08: Button
-    private lateinit var btn09: Button
-    private lateinit var btn00: Button
-    private lateinit var btnClear: Button
-    private lateinit var btnFingerPrint: Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initializedComponents()
+        binding.btn01.setOnClickListener {
+            numbersList.add("1")
+            passNumber(numbersList)
+        }
+        binding.btn02.setOnClickListener {
+            numbersList.add("2")
+            passNumber(numbersList)
+        }
+        binding.btn03.setOnClickListener {
+            numbersList.add("3")
+            passNumber(numbersList)
+        }
+        binding.btn04.setOnClickListener {
+            numbersList.add("4")
+            passNumber(numbersList)
+        }
+        binding.btn05.setOnClickListener {
+            numbersList.add("5")
+            passNumber(numbersList)
+        }
+        binding.btn06.setOnClickListener {
+            numbersList.add("6")
+            passNumber(numbersList)
+        }
+        binding.btn07.setOnClickListener {
+            numbersList.add("7")
+            passNumber(numbersList)
+        }
+        binding.btn08.setOnClickListener {
+            numbersList.add("8")
+            passNumber(numbersList)
+        }
+        binding.btn09.setOnClickListener {
+            numbersList.add("9")
+            passNumber(numbersList)
+        }
+        binding.btn00.setOnClickListener {
+            numbersList.add("0")
+            passNumber(numbersList)
+        }
+        binding.btnClear.setOnClickListener {
+            numbersList.clear()
+            passNumber(numbersList)
+        }
+        binding.btnFingerPrint.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
 
-
-    }
-
-    private fun initializedComponents() {
-        btn01 = binding.btn01
-        btn02 = binding.btn02
-        btn03 = binding.btn03
-        btn04 = binding.btn04
-        btn05 = binding.btn05
-        btn06 = binding.btn06
-        btn07 = binding.btn07
-        btn08 = binding.btn08
-        btn09 = binding.btn09
-        btn00 = binding.btn00
-        btnClear = binding.btnClear
-        btnFingerPrint = binding.btnFingerPrint
-
-        btn01.setOnClickListener(this)
-        btn02.setOnClickListener(this)
-        btn03.setOnClickListener(this)
-        btn04.setOnClickListener(this)
-        btn05.setOnClickListener(this)
-        btn06.setOnClickListener(this)
-        btn07.setOnClickListener(this)
-        btn08.setOnClickListener(this)
-        btn09.setOnClickListener(this)
-        btn00.setOnClickListener(this)
-        btnClear.setOnClickListener(this)
-        btnFingerPrint.setOnClickListener(this)
     }
 
     //match the pass, if are the same go to new activity else toast with retry again
-    private fun matchPassCode(){
-        if(getPassCode() == passCode){
+    private fun matchPassCode() {
+        if (getPassCode() == passCode) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         } else {
-            Toast.makeText(this,"PassCode doesn't match please retry again!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "PassCode doesn't match please retry again!", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     //save the pass
-    private fun savePassCode(passCode: String): SharedPreferences.Editor{
+    private fun savePassCode(passCode: String): SharedPreferences.Editor {
         val preferences = getSharedPreferences("passcode-pref", Context.MODE_PRIVATE)
         val editor = preferences.edit()
-        editor.putString("passcode",passCode)
+        editor.putString("passcode", passCode)
         editor.apply()
 
         return editor
@@ -103,41 +108,41 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
     }
 
     //I paint the circle when a circle have a value
-    private fun passNumber(numberList: MutableList<String>) {
-        if(numberList.size == 0){
+    private fun passNumber(numberList: ArrayList<String>) {
+        if (numberList.isEmpty()) {
             binding.view01.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view02.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view03.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view04.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view05.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view06.setBackgroundResource(R.drawable.bg_view_bordo_oval)
-        }else{
-            when(numberList.size){
+        } else {
+            when (numberList.size) {
                 0 -> {
-                    num01 = numbersList[0]
+                    num01 = numbersList[0].toString()
                     binding.view01.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
                 1 -> {
-                    num02 = numbersList[1]
+                    num02 = numbersList[1].toString()
                     binding.view02.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
                 2 -> {
-                    num03 = numbersList[2]
+                    num03 = numbersList[2].toString()
                     binding.view03.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
                 3 -> {
-                    num04 = numbersList[3]
+                    num04 = numbersList[3].toString()
                     binding.view04.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
                 4 -> {
-                    num05 = numbersList[4]
+                    num05 = numbersList[4].toString()
                     binding.view05.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
                 5 -> {
-                    num06 = numberList[5]
+                    num06 = numberList[5].toString()
                     binding.view06.setBackgroundResource(R.drawable.bg_view_grey_oval)
                     passCode = num01 + num02 + num03 + num04 + num05 + num06
-                    if(getPassCode().isEmpty()){
+                    if (getPassCode().isEmpty()) {
                         savePassCode(passCode)
                     } else {
                         matchPassCode()
@@ -148,7 +153,7 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
         }
     }
 
-
+/*
     //capture one click and add your value
     override fun onClick(v: View) {
         when (v.id) {
@@ -202,5 +207,5 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener{
             }
         }
 
-    }
+    }*/
 }
