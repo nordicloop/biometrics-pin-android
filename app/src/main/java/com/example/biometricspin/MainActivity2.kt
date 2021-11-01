@@ -3,17 +3,26 @@ package com.example.biometricspin
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import androidx.biometric.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
+import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.biometricspin.databinding.ActivityMain2Binding
 
 
-class MainActivity2 : AppCompatActivity(), View.OnClickListener {
+class MainActivity2 : AppCompatActivity() {
+
+    //BIOMETRIC
+    private lateinit var biometricManager : BiometricManager
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
+    private val TAG = MainActivity::getLocalClassName.toString()
     private lateinit var binding: ActivityMain2Binding
 
+    //LIST WHIT THE PASSCODE
     private val numbersList: MutableList<String>  = ArrayList()
 
     private var passCode = ""
@@ -24,62 +33,80 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
     var num05 = ""
     var num06 = ""
 
-    lateinit var btn_01 :Button
-    lateinit var btn_02 :Button
-    lateinit var btn_03 :Button
-    lateinit var btn_04 :Button
-    lateinit var btn_05 :Button
-    lateinit var btn_06 :Button
-    lateinit var btn_07 :Button
-    lateinit var btn_08 :Button
-    lateinit var btn_09 :Button
-    lateinit var btn_00 :Button
-    lateinit var btn_clear :Button
-    lateinit var btn_finger_print :Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*binding.btn01.setOnClickListener{
-            numbersList.add("1").toString()
+        //VALUES FOR THE FINGERPRINT
+        val executor = ContextCompat.getMainExecutor(this)
+        biometricManager = BiometricManager.from(this)
+        checkBiometricStatus(biometricManager)
+        promptInfo = createPromptInfo()
+
+        biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback(){
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    //if any error come
+                    notifyUser("Authentication error! :$errString")
+                    super.onAuthenticationError(errorCode, errString)
+                }
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    //if is successful
+                    notifyUser("Authentication Succes!")
+                    super.onAuthenticationSucceeded(result)
+                    //you are in the system
+                    startActivity(Intent(this@MainActivity2,MainActivity::class.java))
+                }
+
+                override fun onAuthenticationFailed() {
+                    //if there are any failure
+                    notifyUser("Authentication Falied!")
+                    super.onAuthenticationFailed()
+                }
+            })
+
+        //CAPTURE CLICK PASSCODE
+        binding.btn01.setOnClickListener{
+            numbersList.add("1")
             passNumber(numbersList)
         }
         binding.btn02.setOnClickListener {
-            numbersList.add("2").toString()
+            numbersList.add("2")
             passNumber(numbersList)
         }
         binding.btn03.setOnClickListener {
-            numbersList.add("3").toString()
+            numbersList.add("3")
             passNumber(numbersList)
         }
         binding.btn04.setOnClickListener {
-            numbersList.add("4").toString()
+            numbersList.add("4")
             passNumber(numbersList)
         }
         binding.btn05.setOnClickListener {
-            numbersList.add("5").toString()
+            numbersList.add("5")
             passNumber(numbersList)
         }
         binding.btn06.setOnClickListener {
-            numbersList.add("6").toString()
+            numbersList.add("6")
             passNumber(numbersList)
         }
         binding.btn07.setOnClickListener {
-            numbersList.add("7").toString()
+            numbersList.add("7")
             passNumber(numbersList)
         }
         binding.btn08.setOnClickListener {
-            numbersList.add("8").toString()
+            numbersList.add("8")
             passNumber(numbersList)
         }
         binding.btn09.setOnClickListener {
-            numbersList.add("9").toString()
+            numbersList.add("9")
             passNumber(numbersList)
         }
         binding.btn00.setOnClickListener {
-            numbersList.add("0").toString()
+            numbersList.add("0")
             passNumber(numbersList)
         }
         binding.btnClear.setOnClickListener {
@@ -87,45 +114,16 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
             passNumber(numbersList)
         }
         binding.btnFingerPrint.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }*/
-
-        initialidezComponents()
+            biometricPrompt.authenticate(promptInfo)
+        }
     }
 
-    private fun initialidezComponents() {
-        btn_01 = findViewById(R.id.btn_01)
-        btn_02 = findViewById(R.id.btn_02)
-        btn_03 = findViewById(R.id.btn_03)
-        btn_04 = findViewById(R.id.btn_04)
-        btn_05 = findViewById(R.id.btn_05)
-        btn_06 = findViewById(R.id.btn_06)
-        btn_07 = findViewById(R.id.btn_07)
-        btn_08 = findViewById(R.id.btn_08)
-        btn_09 = findViewById(R.id.btn_09)
-        btn_00 = findViewById(R.id.btn_00)
-        btn_clear = findViewById(R.id.btn_clear)
-        btn_finger_print = findViewById(R.id.btn_finger_print)
 
-        btn_01.setOnClickListener(this)
-        btn_02.setOnClickListener(this)
-        btn_03.setOnClickListener(this)
-        btn_04.setOnClickListener(this)
-        btn_05.setOnClickListener(this)
-        btn_06.setOnClickListener(this)
-        btn_07.setOnClickListener(this)
-        btn_08.setOnClickListener(this)
-        btn_09.setOnClickListener(this)
-        btn_00.setOnClickListener(this)
-        btn_clear.setOnClickListener(this)
-        btn_finger_print.setOnClickListener(this)
 
-    }
 
     //match the pass, if are the same go to new activity else toast with retry again
     private fun matchPassCode() {
-        if (getPassCode().equals(passCode)) {
+        if (getPassCode() == passCode) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         } else {
@@ -152,7 +150,7 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
 
     //I paint the circle when a circle have a value
     private fun passNumber(numberList: MutableList<String>) {
-        if (numberList.isEmpty()) {
+        if (numberList.size == 0){
             binding.view01.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view02.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view03.setBackgroundResource(R.drawable.bg_view_bordo_oval)
@@ -196,7 +194,40 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    //BIOMETRIC
+    private fun notifyUser(message: String){
+        Toast.makeText(applicationContext,message,Toast.LENGTH_SHORT).show()
+    }
 
+    private fun createPromptInfo():BiometricPrompt.PromptInfo {
+        //Setup title, subtitle and description on authentication dialog
+        return BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Authentication required")
+            .setDescription("Touch the fingerprint sensor")
+            .setNegativeButtonText("PIN")
+            .build()
+    }
+    private fun checkBiometricStatus(biometricManager: BiometricManager){
+        when(biometricManager.canAuthenticate()){
+            BiometricManager.BIOMETRIC_SUCCESS ->
+                Log.d(TAG,"checkBiometricStatus: App can use biometric authenticate")
+
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
+                Log.d(TAG, "checkBiometricStatus: No biometric features available in this device")
+
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
+                Log.d(TAG, "checkBiometricStatus: Biometric features currently unavailable")
+
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
+                Log.d(TAG, "checkBiometricStatus: The user hasn't enrolled with any biometric configuration in this device")
+
+        }
+
+    }
+
+
+
+/*
     //capture one click and add your value
     @Override
     override fun onClick(v: View){
@@ -251,6 +282,6 @@ class MainActivity2 : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-    }
+    }*/
 }
 
