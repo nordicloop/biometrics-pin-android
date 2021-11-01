@@ -1,29 +1,32 @@
 package com.example.biometricspin
 
+
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.biometric.*
+import androidx.biometric.BiometricPrompt
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.biometricspin.databinding.ActivityMain2Binding
+import java.util.concurrent.Executor
 
 
-class MainActivity2 : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity(){
 
     //BIOMETRIC
-    private lateinit var biometricManager : BiometricManager
+    private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
 
     private val TAG = MainActivity::getLocalClassName.toString()
     private lateinit var binding: ActivityMain2Binding
 
     //LIST WHIT THE PASSCODE
-    private val numbersList: MutableList<String>  = ArrayList()
+    private val numbersList: ArrayList<String>  = ArrayList()
 
     private var passCode = ""
     var num01 = ""
@@ -39,38 +42,42 @@ class MainActivity2 : AppCompatActivity() {
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //VALUES FOR THE FINGERPRINT
-        val executor = ContextCompat.getMainExecutor(this)
-        biometricManager = BiometricManager.from(this)
-        checkBiometricStatus(biometricManager)
-        promptInfo = createPromptInfo()
-
+        executor = ContextCompat.getMainExecutor(this)
         biometricPrompt = BiometricPrompt(this, executor,
-            object : BiometricPrompt.AuthenticationCallback(){
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    //if any error come
-                    notifyUser("Authentication error! :$errString")
-                    super.onAuthenticationError(errorCode, errString)
-                }
+        object : BiometricPrompt.AuthenticationCallback(){
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                //if any error come
+                notifyUser("Authentication Error!: $errString")
+                super.onAuthenticationError(errorCode, errString)
+            }
 
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    //if is successful
-                    notifyUser("Authentication Succes!")
-                    super.onAuthenticationSucceeded(result)
-                    //you are in the system
-                    startActivity(Intent(this@MainActivity2,MainActivity::class.java))
-                }
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                //if is successful
+                notifyUser("Authentication Succes!")
+                super.onAuthenticationSucceeded(result)
+                //you are in the system
+                startActivity(Intent(this@MainActivity2, MainActivity::class.java))
+            }
 
-                override fun onAuthenticationFailed() {
-                    //if there are any failure
-                    notifyUser("Authentication Falied!")
-                    super.onAuthenticationFailed()
-                }
-            })
+            override fun onAuthenticationFailed() {
+                //if there are any failure
+                notifyUser("Authentication Falied!")
+                super.onAuthenticationFailed()
+            }
+        })
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Authentication required")
+            .setDescription("Touch the fingerprint sensor")
+            .setNegativeButtonText("PIN")
+            .build()
+
+
 
         //CAPTURE CLICK PASSCODE
         binding.btn01.setOnClickListener{
             numbersList.add("1")
+            Log.d("TAG","$numbersList")
             passNumber(numbersList)
         }
         binding.btn02.setOnClickListener {
@@ -110,10 +117,12 @@ class MainActivity2 : AppCompatActivity() {
             passNumber(numbersList)
         }
         binding.btnClear.setOnClickListener {
+            //clear all numbers
             numbersList.clear()
             passNumber(numbersList)
         }
         binding.btnFingerPrint.setOnClickListener {
+            //pop up fingerprint
             biometricPrompt.authenticate(promptInfo)
         }
     }
@@ -132,7 +141,7 @@ class MainActivity2 : AppCompatActivity() {
         }
     }
 
-    //save the pass
+    //save the first pass
     private fun savePassCode(passCode: String): SharedPreferences.Editor {
         val preferences = getSharedPreferences("passcode-pref", Context.MODE_PRIVATE)
         val editor = preferences.edit()
@@ -149,8 +158,8 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     //I paint the circle when a circle have a value
-    private fun passNumber(numberList: MutableList<String>) {
-        if (numberList.size == 0){
+    private fun passNumber(numberList: ArrayList<String>) {
+        if (numberList.isEmpty()){
             binding.view01.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view02.setBackgroundResource(R.drawable.bg_view_bordo_oval)
             binding.view03.setBackgroundResource(R.drawable.bg_view_bordo_oval)
@@ -159,28 +168,28 @@ class MainActivity2 : AppCompatActivity() {
             binding.view06.setBackgroundResource(R.drawable.bg_view_bordo_oval)
         } else {
             when (numberList.size) {
-                0 -> {
-                    num01 = numbersList[0].toString()
+                1 -> {
+                    num01 = numbersList[0]
                     binding.view01.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                1 -> {
-                    num02 = numbersList[1].toString()
+                2 -> {
+                    num02 = numbersList[1]
                     binding.view02.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                2 -> {
-                    num03 = numbersList[2].toString()
+                3 -> {
+                    num03 = numbersList[2]
                     binding.view03.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                3 -> {
-                    num04 = numbersList[3].toString()
+                4 -> {
+                    num04 = numbersList[3]
                     binding.view04.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                4 -> {
-                    num05 = numbersList[4].toString()
+                5 -> {
+                    num05 = numbersList[4]
                     binding.view05.setBackgroundResource(R.drawable.bg_view_grey_oval)
                 }
-                5 -> {
-                    num06 = numbersList[5].toString()
+                6 -> {
+                    num06 = numbersList[5]
                     binding.view06.setBackgroundResource(R.drawable.bg_view_grey_oval)
                     passCode = num01 + num02 + num03 + num04 + num05 + num06
                     if (getPassCode().isEmpty()) {
@@ -194,20 +203,12 @@ class MainActivity2 : AppCompatActivity() {
         }
     }
 
-    //BIOMETRIC
+    //TOAST FUN
     private fun notifyUser(message: String){
         Toast.makeText(applicationContext,message,Toast.LENGTH_SHORT).show()
     }
 
-    private fun createPromptInfo():BiometricPrompt.PromptInfo {
-        //Setup title, subtitle and description on authentication dialog
-        return BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Authentication required")
-            .setDescription("Touch the fingerprint sensor")
-            .setNegativeButtonText("PIN")
-            .build()
-    }
-    private fun checkBiometricStatus(biometricManager: BiometricManager){
+/*
         when(biometricManager.canAuthenticate()){
             BiometricManager.BIOMETRIC_SUCCESS ->
                 Log.d(TAG,"checkBiometricStatus: App can use biometric authenticate")
@@ -221,19 +222,16 @@ class MainActivity2 : AppCompatActivity() {
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
                 Log.d(TAG, "checkBiometricStatus: The user hasn't enrolled with any biometric configuration in this device")
 
-        }
-
-    }
-
-
-
+        }*/
 /*
     //capture one click and add your value
+    //WITH THIS FUNCTION DON'T WORK .CLEAR()
     @Override
     override fun onClick(v: View){
         when (v.id) {
             R.id.btn_01 -> {
                 numbersList.add("1")
+                Log.d("TAG","$numbersList")
                 passNumber(numbersList)
             }
             R.id.btn_02 -> {
@@ -241,47 +239,49 @@ class MainActivity2 : AppCompatActivity() {
                 passNumber(numbersList)
             }
             R.id.btn_03 -> {
-                numbersList.add("3").toString()
+                numbersList.add("3")
                 passNumber(numbersList)
             }
             R.id.btn_04 -> {
-                numbersList.add("4").toString()
+                numbersList.add("4")
                 passNumber(numbersList)
             }
             R.id.btn_05-> {
-                numbersList.add("5").toString()
+                numbersList.add("5")
                 passNumber(numbersList)
             }
             R.id.btn_06 -> {
-                numbersList.add("6").toString()
+                numbersList.add("6")
                 passNumber(numbersList)
             }
             R.id.btn_07 -> {
-                numbersList.add("7").toString()
+                numbersList.add("7")
                 passNumber(numbersList)
             }
             R.id.btn_08 -> {
-                numbersList.add("8").toString()
+                numbersList.add("8")
                 passNumber(numbersList)
             }
             R.id.btn_09 -> {
-                numbersList.add("9").toString()
+                numbersList.add("9")
                 passNumber(numbersList)
             }
             R.id.btn_00 -> {
-                numbersList.add("0").toString()
+                numbersList.add("0")
                 passNumber(numbersList)
             }
             R.id.btn_clear -> {
                 numbersList.clear()
-                passNumber(numbersList)
             }
             R.id.btn_finger_print -> {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                biometricPrompt.authenticate(promptInfo)
             }
         }
+     }
+        */
 
-    }*/
+
+
 }
+
 

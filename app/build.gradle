@@ -37,7 +37,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -47,9 +46,6 @@ dependencies {
 
     //BIOMETRIC AUTHENTICATION
     implementation 'androidx.biometric:biometric:1.2.0-alpha03'
-
-    //PIN
-    implementation 'com.hanks:passcodeview:0.1.2'
 
 
     testImplementation 'junit:junit:4.+'
