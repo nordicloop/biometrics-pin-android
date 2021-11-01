@@ -94,6 +94,7 @@
                 android:weightSum="3">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_01"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -105,6 +106,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_02"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -116,6 +118,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_03"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -136,6 +139,7 @@
                 android:weightSum="3">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_04"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -147,6 +151,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_05"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -158,6 +163,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_06"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -178,6 +184,7 @@
                 android:weightSum="3">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_07"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -189,6 +196,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_08"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -200,6 +208,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_09"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -220,6 +229,7 @@
                 android:weightSum="3">
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_clear"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -228,6 +238,7 @@
                     android:src="@drawable/ic_clear_orange"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_00"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -239,6 +250,7 @@
                     android:textColor="@color/naranja"/>
 
                 <Button
+                    android:onClick="onClick"
                     android:id="@+id/btn_finger_print"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -249,11 +261,8 @@
             </LinearLayout>
             <!-- END LINEAR BACK,0,FINGERPRINT -->
             
-            
         </LinearLayout>
         <!-- END PASSCODE -->
-
-
 
     </LinearLayout>
 
