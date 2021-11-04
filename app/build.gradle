@@ -35,6 +35,7 @@ android {
         viewBinding = true
     }
 }
+def nav_version = "2.3.5"
 
 dependencies {
 
@@ -46,7 +47,11 @@ dependencies {
 
     //BIOMETRIC AUTHENTICATION
     implementation 'androidx.biometric:biometric:1.2.0-alpha03'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //NAV LIBRERY
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
